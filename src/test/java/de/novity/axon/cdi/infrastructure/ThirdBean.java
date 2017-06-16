@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.messaging.annotation;
+package de.novity.axon.cdi.infrastructure;
 
-class SimpleTarget {
-    public void doSomething(final SimpleBean bean) {
-    }
+public class ThirdBean {
 }

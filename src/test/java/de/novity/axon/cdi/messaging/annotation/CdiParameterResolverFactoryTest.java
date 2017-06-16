@@ -16,6 +16,9 @@
 
 package de.novity.axon.cdi.messaging.annotation;
 
+import de.novity.axon.cdi.domain.SimpleBean;
+import de.novity.axon.cdi.infrastructure.FirstBean;
+import de.novity.axon.cdi.infrastructure.SimpleTarget;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
@@ -35,7 +38,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class CdiParameterResolverFactoryTest {
     @Tested

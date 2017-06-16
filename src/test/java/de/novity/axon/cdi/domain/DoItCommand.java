@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.messaging.annotation;
+package de.novity.axon.cdi.domain;
 
-class SecondBean implements SimpleBean {
+public class DoItCommand {
 }

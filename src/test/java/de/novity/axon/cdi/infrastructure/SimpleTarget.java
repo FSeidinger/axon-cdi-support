@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.messaging.annotation;
+package de.novity.axon.cdi.infrastructure;
 
-interface SimpleBean {
+import de.novity.axon.cdi.domain.SimpleBean;
+
+public class SimpleTarget {
+    public void doSomething(final SimpleBean bean) {
+    }
 }

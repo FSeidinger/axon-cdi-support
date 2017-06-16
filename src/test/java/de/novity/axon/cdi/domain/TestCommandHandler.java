@@ -14,7 +14,14 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.messaging.annotation;
+package de.novity.axon.cdi.domain;
 
-class ThirdBean {
+import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.common.Assert;
+
+public class TestCommandHandler {
+    @CommandHandler
+    public void handle(DoItCommand command, SimpleBean simpleBean) {
+        Assert.notNull(simpleBean, () -> "Simple bean must not be null");
+    }
 }

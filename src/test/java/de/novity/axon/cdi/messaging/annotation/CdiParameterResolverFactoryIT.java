@@ -16,6 +16,11 @@
 
 package de.novity.axon.cdi.messaging.annotation;
 
+import de.novity.axon.cdi.domain.SimpleBean;
+import de.novity.axon.cdi.infrastructure.FirstBean;
+import de.novity.axon.cdi.infrastructure.SecondBean;
+import de.novity.axon.cdi.infrastructure.SimpleTarget;
+import de.novity.axon.cdi.infrastructure.ThirdBean;
 import org.axonframework.messaging.annotation.ParameterResolver;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
