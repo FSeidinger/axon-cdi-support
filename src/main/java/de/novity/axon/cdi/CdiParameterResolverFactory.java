@@ -23,6 +23,7 @@ import org.axonframework.messaging.annotation.ParameterResolverFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.AmbiguousResolutionException;
 import javax.enterprise.inject.spi.Bean;
@@ -33,6 +34,7 @@ import java.lang.reflect.Executable;
 import java.lang.reflect.Parameter;
 import java.util.Set;
 
+@ApplicationScoped
 public class CdiParameterResolverFactory implements ParameterResolverFactory {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
