@@ -28,6 +28,7 @@ import org.axonframework.messaging.annotation.ParameterResolver;
 import org.junit.jupiter.api.Test;
 
 import javax.enterprise.context.spi.CreationalContext;
+import javax.enterprise.inject.AmbiguousResolutionException;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import java.lang.annotation.Annotation;
@@ -85,7 +86,7 @@ class CdiParameterResolverFactoryTest {
             result = Collections.EMPTY_SET;
 
             manager.resolve(withInstanceOf(Set.class));
-            result = null;
+            result = new AmbiguousResolutionException("Bean A, Bean B");
         }};
 
         final ParameterResolver resolver = factory.createInstance(commandHandler, parameters, 1);
