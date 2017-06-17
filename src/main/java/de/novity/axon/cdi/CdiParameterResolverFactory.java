@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.messaging.annotation;
+package de.novity.axon.cdi;
 
 import org.axonframework.common.Assert;
 import org.axonframework.messaging.annotation.FixedValueParameterResolver;
@@ -47,7 +47,7 @@ public class CdiParameterResolverFactory implements ParameterResolverFactory {
     @Override
     public ParameterResolver createInstance(Executable executable, Parameter[] parameters, int parameterIndex) {
         final Class<?> parameterClass = parameters[parameterIndex].getType();
-        final Annotation parameterQualifiers[] = parameterClass.getAnnotationsByType(javax.inject.Qualifier.class);
+        final Annotation[] parameterQualifiers = parameterClass.getAnnotationsByType(javax.inject.Qualifier.class);
         final Set<Bean<?>> beanCandidates = manager.getBeans(parameterClass, parameterQualifiers);
 
         try {
