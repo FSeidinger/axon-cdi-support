@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.domain;
+package de.novity.axon.cdi.app.domain.model;
 
-public class DoItCommand {
+public class SimpleCommand {
 }

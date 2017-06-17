@@ -14,9 +14,16 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.infrastructure;
+package de.novity.axon.cdi.test;
 
-import de.novity.axon.cdi.domain.SimpleBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class FirstBean implements SimpleBean {
+public class BSimpleDependecy implements SimpleDependency {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Override
+    public void doSomething() {
+        logger.info("Did something");
+    }
 }

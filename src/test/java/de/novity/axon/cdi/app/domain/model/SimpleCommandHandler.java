@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.domain;
+package de.novity.axon.cdi.app.domain.model;
 
-public interface SimpleBean {
+import org.axonframework.commandhandling.CommandHandler;
+
+public class SimpleCommandHandler {
+    @CommandHandler
+    public void handle(final SimpleCommand command) {
+    }
 }

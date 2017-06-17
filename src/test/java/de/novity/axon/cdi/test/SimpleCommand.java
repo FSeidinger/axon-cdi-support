@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.domain;
+package de.novity.axon.cdi.test;
 
-import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.common.Assert;
+public class SimpleCommand {
+    private final String id;
 
-public class TestCommandHandler {
-    @CommandHandler
-    public void handle(DoItCommand command, SimpleBean simpleBean) {
-        Assert.notNull(simpleBean, () -> "Simple bean must not be null");
+    public SimpleCommand(String id) {
+        this.id = id;
     }
 }

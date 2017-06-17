@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.infrastructure;
+package de.novity.axon.cdi.test;
 
-import de.novity.axon.cdi.domain.SimpleBean;
+import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.common.Assert;
 
-public class SecondBean implements SimpleBean {
+public class SimpleCommandHandler {
+    @CommandHandler
+    public void handl(final SimpleCommand command, final SimpleDependency dependency) {
+        Assert.notNull(command, () -> "Command must not be null");
+        Assert.notNull(dependency, () -> "Dependecy must not be null");
+
+        dependency.doSomething();
+    }
 }

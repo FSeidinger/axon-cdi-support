@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.messaging.annotation;
+package de.novity.axon.cdi;
 
-import de.novity.axon.cdi.domain.SimpleBean;
-import de.novity.axon.cdi.infrastructure.FirstBean;
-import de.novity.axon.cdi.infrastructure.SimpleTarget;
+import de.novity.axon.cdi.test.ASimpleDependency;
+import de.novity.axon.cdi.test.SimpleCommandHandler;
+import de.novity.axon.cdi.test.SimpleDependency;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
 import mockit.Tested;
+import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.messaging.annotation.ParameterResolver;
 import org.junit.jupiter.api.Test;
 
@@ -54,11 +55,12 @@ class CdiParameterResolverFactoryTest {
     @Mocked
     private Bean anotherMockedBean;
 
+    private SimpleCommandHandler annotatedCommandHandler = new SimpleCommandHandler();
+    private Executable commandHandler = findExecutable(annotatedCommandHandler);
+    private Parameter[] parameters = commandHandler.getParameters();
+
     @Test
     public void factoryResolvesParameterType() throws Exception {
-        final SimpleTarget target = new SimpleTarget();
-        final Executable targetMethod = target.getClass().getMethods()[0];
-        final Parameter parameters[] = targetMethod.getParameters();
         final Set<Bean> beans = new HashSet<>(Arrays.asList(mockedBean));
 
         new Expectations() {{
@@ -66,22 +68,18 @@ class CdiParameterResolverFactoryTest {
             result = beans;
 
             manager.getReference(withInstanceOf(Bean.class), withInstanceOf(Type.class), withInstanceOf(CreationalContext.class));
-            result = new FirstBean();
+            result = new ASimpleDependency();
         }};
 
-        final ParameterResolver<SimpleBean> resolver = factory.createInstance(targetMethod, parameters, 0);
-        final SimpleBean simpleBean = resolver.resolveParameterValue(null);
+        final ParameterResolver<SimpleDependency> resolver = factory.createInstance(commandHandler, parameters, 1);
+        final SimpleDependency dependency = resolver.resolveParameterValue(null);
 
         assertNotNull(resolver);
-        assertNotNull(simpleBean);
+        assertNotNull(dependency);
     }
 
     @Test
     public void factoryRejectsAmbiguousParameterType() throws Exception {
-        final SimpleTarget target = new SimpleTarget();
-        final Executable targetMethod = target.getClass().getMethods()[0];
-        final Parameter parameters[] = targetMethod.getParameters();
-
         new Expectations() {{
             manager.getBeans(withInstanceOf(Type.class), withAny(new Annotation[0]));
             result = Collections.EMPTY_SET;
@@ -90,16 +88,13 @@ class CdiParameterResolverFactoryTest {
             result = null;
         }};
 
-        final ParameterResolver resolver = factory.createInstance(targetMethod, parameters, 0);
+        final ParameterResolver resolver = factory.createInstance(commandHandler, parameters, 1);
 
         assertNull(resolver);
     }
 
     @Test
     public void factoryRejectsUnknownParameterType() throws Exception {
-        final SimpleTarget target = new SimpleTarget();
-        final Executable targetMethod = target.getClass().getMethods()[0];
-        final Parameter parameters[] = targetMethod.getParameters();
         final Set<Bean> beans = new HashSet<>(Arrays.asList(mockedBean, anotherMockedBean));
 
         new Expectations() {{
@@ -110,8 +105,16 @@ class CdiParameterResolverFactoryTest {
             result = null;
         }};
 
-        final ParameterResolver resolver = factory.createInstance(targetMethod, parameters, 0);
+        final ParameterResolver resolver = factory.createInstance(commandHandler, parameters, 1);
 
         assertNull(resolver);
+    }
+
+    private Executable findExecutable(Object target) {
+        return Arrays.asList(target.getClass().getMethods())
+                .stream()
+                .filter(method -> method.getAnnotation(CommandHandler.class) != null)
+                .findFirst()
+                .get();
     }
 }

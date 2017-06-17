@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.infrastructure;
+package de.novity.axon.cdi.test;
 
-public class ThirdBean {
+public class AnotherDependency {
 }
