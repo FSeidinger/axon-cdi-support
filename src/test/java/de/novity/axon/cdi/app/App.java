@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.app.domain.model;
+package de.novity.axon.cdi.app;
 
-import de.novity.axon.cdi.app.domain.api.SimpleCommand;
-import de.novity.axon.cdi.app.domain.api.SimpleDependency;
-import org.axonframework.commandhandling.CommandHandler;
-
-public class SimpleCommandHandler {
-    @CommandHandler
-    public void handle(final SimpleCommand command, final SimpleDependency simpleDependency) {
-        simpleDependency.doSomething();
-    }
+/**
+ * This class is used to mark the package root of the CDI integration test environment used by
+ * {@link de.novity.axon.cdi.CdiParameterResolverFactory}
+ */
+public class App {
 }

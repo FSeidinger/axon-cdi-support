@@ -16,67 +16,48 @@
 
 package de.novity.axon.cdi;
 
-import de.novity.axon.cdi.app.domain.model.SimpleCommand;
-import de.novity.axon.cdi.app.domain.model.SimpleCommandHandler;
-import de.novity.axon.cdi.test.ASimpleDependency;
+import de.novity.axon.cdi.app.App;
+import de.novity.axon.cdi.app.domain.api.SimpleCommand;
 import org.axonframework.config.Configuration;
-import org.axonframework.config.ConfigurationParameterResolverFactory;
-import org.axonframework.config.DefaultConfigurer;
-import org.axonframework.messaging.annotation.ClasspathParameterResolverFactory;
-import org.axonframework.messaging.annotation.MultiParameterResolverFactory;
-import org.axonframework.messaging.annotation.ParameterResolverFactory;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.enterprise.inject.spi.CDI;
+
 public class AxonConfigurationTestIT {
-    // Dependencies
     private WeldContainer container;
-    private Configuration configuration;
 
     @BeforeEach
     private void setup() {
         container = new Weld()
                 .containerId("CDI test environment")
                 .disableDiscovery()
-                .addBeanClass(ASimpleDependency.class)
+                .addBeanClass(CdiParameterResolverFactory.class)
+                .addPackages(true, App.class)
                 .initialize();
-
-        configuration = DefaultConfigurer
-                .defaultConfiguration()
-                .registerComponent(
-                        ParameterResolverFactory.class,
-                        config -> MultiParameterResolverFactory.ordered(
-                                new CdiParameterResolverFactory(container.getBeanManager()),
-                                ClasspathParameterResolverFactory.forClass(getClass()),
-                                new ConfigurationParameterResolverFactory(configuration)
-                        )
-                )
-                .registerCommandHandler(config -> new SimpleCommandHandler())
-                .buildConfiguration();
-
-        configuration.start();
     }
 
     @AfterEach
     private void teardown() {
-        if (configuration != null) {
-            configuration.shutdown();
-        }
-
         if (container != null) {
             container.close();
         }
     }
 
     @Test
-    public void cdiBeanCanBeResolved() {
+    public void cdiBeanCanBeResolved() throws Exception {
         final SimpleCommand command = new SimpleCommand();
 
+        final Configuration configuration = lookupConfiguration(container);
         configuration
                 .commandGateway()
                 .sendAndWait(command);
+    }
+
+    private Configuration lookupConfiguration(CDI<Object> container) {
+        return container.select(Configuration.class).get();
     }
 }

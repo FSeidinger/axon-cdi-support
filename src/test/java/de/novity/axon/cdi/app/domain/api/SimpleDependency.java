@@ -14,7 +14,15 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.app.domain.model;
+package de.novity.axon.cdi.app.domain.api;
 
-public class SimpleCommand {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class SimpleDependency {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    public void doSomething() {
+        logger.info("Done");
+    }
 }

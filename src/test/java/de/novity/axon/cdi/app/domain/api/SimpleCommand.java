@@ -14,15 +14,7 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.app.domain.model;
+package de.novity.axon.cdi.app.domain.api;
 
-import de.novity.axon.cdi.app.domain.api.SimpleCommand;
-import de.novity.axon.cdi.app.domain.api.SimpleDependency;
-import org.axonframework.commandhandling.CommandHandler;
-
-public class SimpleCommandHandler {
-    @CommandHandler
-    public void handle(final SimpleCommand command, final SimpleDependency simpleDependency) {
-        simpleDependency.doSomething();
-    }
+public class SimpleCommand {
 }

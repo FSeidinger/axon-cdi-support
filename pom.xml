@@ -238,6 +238,11 @@
                             </goals>
                         </execution>
                     </executions>
+                    <configuration>
+                        <classpathDependencyExcludes>
+                            <classpathDependencyExcludes>org.jmockit:jmockit</classpathDependencyExcludes>
+                        </classpathDependencyExcludes>
+                    </configuration>
                     <dependencies>
                         <dependency>
                             <groupId>org.junit.platform</groupId>
