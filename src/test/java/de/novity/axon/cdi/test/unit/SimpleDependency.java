@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.test;
+package de.novity.axon.cdi.test.unit;
 
 public interface SimpleDependency {
     void doSomething();

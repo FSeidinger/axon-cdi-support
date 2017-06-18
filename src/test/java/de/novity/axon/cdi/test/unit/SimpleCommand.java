@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.test;
+package de.novity.axon.cdi.test.unit;
 
-import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.common.Assert;
+@SuppressWarnings("WeakerAccess")
+public class SimpleCommand {
+    private final String id;
 
-public class SimpleCommandHandler {
-    @CommandHandler
-    public void handl(final SimpleCommand command, final SimpleDependency dependency) {
-        Assert.notNull(command, () -> "Command must not be null");
-        Assert.notNull(dependency, () -> "Dependecy must not be null");
+    public SimpleCommand(String id) {
+        this.id = id;
+    }
 
-        dependency.doSomething();
+    public String getId() {
+        return id;
     }
 }

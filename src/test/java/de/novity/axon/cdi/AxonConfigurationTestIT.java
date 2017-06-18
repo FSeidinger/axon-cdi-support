@@ -16,8 +16,8 @@
 
 package de.novity.axon.cdi;
 
-import de.novity.axon.cdi.app.App;
-import de.novity.axon.cdi.app.domain.api.SimpleCommand;
+import de.novity.axon.cdi.de.novity.axon.cdi.test.it.App;
+import de.novity.axon.cdi.de.novity.axon.cdi.test.it.api.SimpleCommand;
 import org.axonframework.config.Configuration;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
@@ -27,11 +27,11 @@ import org.junit.jupiter.api.Test;
 
 import javax.enterprise.inject.spi.CDI;
 
-public class AxonConfigurationTestIT {
+class AxonConfigurationTestIT {
     private WeldContainer container;
 
     @BeforeEach
-    private void setup() {
+    void setup() {
         container = new Weld()
                 .containerId("CDI test environment")
                 .disableDiscovery()
@@ -41,14 +41,14 @@ public class AxonConfigurationTestIT {
     }
 
     @AfterEach
-    private void teardown() {
+    void teardown() {
         if (container != null) {
             container.close();
         }
     }
 
     @Test
-    public void cdiBeanCanBeResolved() throws Exception {
+    void cdiBeanCanBeResolved() throws Exception {
         final SimpleCommand command = new SimpleCommand();
 
         final Configuration configuration = lookupConfiguration(container);

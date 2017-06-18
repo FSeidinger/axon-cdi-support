@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.app.domain.api;
+package de.novity.axon.cdi.test.unit;
 
-public class SimpleCommand {
+class AnotherDependency {
 }

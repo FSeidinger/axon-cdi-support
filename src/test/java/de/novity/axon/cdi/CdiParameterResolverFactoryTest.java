@@ -16,106 +16,69 @@
 
 package de.novity.axon.cdi;
 
-import de.novity.axon.cdi.test.ASimpleDependency;
-import de.novity.axon.cdi.test.SimpleCommandHandler;
-import de.novity.axon.cdi.test.SimpleDependency;
-import mockit.Expectations;
-import mockit.Injectable;
-import mockit.Mocked;
-import mockit.Tested;
-import org.axonframework.commandhandling.CommandHandler;
+import de.novity.axon.cdi.test.unit.SimpleDependency;
+import mockit.*;
 import org.axonframework.messaging.annotation.ParameterResolver;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.enterprise.context.spi.CreationalContext;
-import javax.enterprise.inject.AmbiguousResolutionException;
-import javax.enterprise.inject.spi.Bean;
-import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.spi.CDI;
+import javax.inject.Qualifier;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Executable;
+import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 class CdiParameterResolverFactoryTest {
     @Tested
     private CdiParameterResolverFactory factory;
 
-    @Injectable
-    private BeanManager manager;
+    @Mocked
+    private CDI<Object> cdi;
+
+    private Method simpleCommandHandlerMethod;
+    private Parameter[] simpleCommandHandlerMethodParameters;
 
     @Mocked
-    private Bean mockedBean;
+    private Instance<SimpleDependency> simpleInstance;
 
-    @Mocked
-    private Bean anotherMockedBean;
+    @BeforeEach
+    void setup() throws Exception {
+        new MockUp<CDI<Object>>() {
+            @Mock
+            CDI<Object> current() {
+                return cdi;
+            }
+        };
 
-    private SimpleCommandHandler annotatedCommandHandler = new SimpleCommandHandler();
-    private Executable commandHandler = findExecutable(annotatedCommandHandler);
-    private Parameter[] parameters = commandHandler.getParameters();
+        simpleCommandHandlerMethod = getClass().getMethod("handle", SimpleDependency.class);
+        simpleCommandHandlerMethodParameters = simpleCommandHandlerMethod.getParameters();
+    }
 
     @Test
-    public void factoryResolvesParameterType() throws Exception {
-        final Set<Bean> beans = new HashSet<>(Arrays.asList(mockedBean));
+    void factoryResolvesParameterType() throws Exception {
+        final Parameter parameter = simpleCommandHandlerMethodParameters[0];
+        final Annotation[] qualifiers = parameter.getAnnotationsByType(Qualifier.class);
 
         new Expectations() {{
-            manager.getBeans(withInstanceOf(Type.class), withAny(new Annotation[0]));
-            result = beans;
-
-            manager.getReference(withInstanceOf(Bean.class), withInstanceOf(Type.class), withInstanceOf(CreationalContext.class));
-            result = new ASimpleDependency();
+            cdi.select(parameter.getType(), qualifiers);
+            result = simpleInstance;
         }};
 
-        final ParameterResolver<SimpleDependency> resolver = factory.createInstance(commandHandler, parameters, 1);
-        final SimpleDependency dependency = resolver.resolveParameterValue(null);
+        final ParameterResolver<?> resolver = factory.createInstance(simpleCommandHandlerMethod, simpleCommandHandlerMethodParameters, 0);
 
         assertNotNull(resolver);
-        assertNotNull(dependency);
-    }
 
-    @Test
-    public void factoryRejectsAmbiguousParameterType() throws Exception {
-        new Expectations() {{
-            manager.getBeans(withInstanceOf(Type.class), withAny(new Annotation[0]));
-            result = Collections.EMPTY_SET;
-
-            manager.resolve(withInstanceOf(Set.class));
-            result = new AmbiguousResolutionException("Bean A, Bean B");
+        new Verifications() {{
+            //noinspection ConstantConditions
+            cdi.select((Class<?>) any, (Annotation[]) any);
+            times = 1;
         }};
-
-        final ParameterResolver resolver = factory.createInstance(commandHandler, parameters, 1);
-
-        assertNull(resolver);
     }
 
-    @Test
-    public void factoryRejectsUnknownParameterType() throws Exception {
-        final Set<Bean> beans = new HashSet<>(Arrays.asList(mockedBean, anotherMockedBean));
-
-        new Expectations() {{
-            manager.getBeans(withInstanceOf(Type.class), withAny(new Annotation[0]));
-            result = beans;
-
-            manager.resolve(withInstanceOf(Set.class));
-            result = null;
-        }};
-
-        final ParameterResolver resolver = factory.createInstance(commandHandler, parameters, 1);
-
-        assertNull(resolver);
-    }
-
-    private Executable findExecutable(Object target) {
-        return Arrays.asList(target.getClass().getMethods())
-                .stream()
-                .filter(method -> method.getAnnotation(CommandHandler.class) != null)
-                .findFirst()
-                .get();
+    @SuppressWarnings({"EmptyMethod", "WeakerAccess"})
+    public void handle(SimpleDependency dependency) {
     }
 }

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.app.domain.infrastructure;
+package de.novity.axon.cdi.de.novity.axon.cdi.test.it.infrastructure;
 
 import de.novity.axon.cdi.CdiParameterResolverFactory;
-import de.novity.axon.cdi.app.domain.model.SimpleCommandHandler;
+import de.novity.axon.cdi.de.novity.axon.cdi.test.it.model.SimpleCommandHandler;
 import org.axonframework.config.Configuration;
 import org.axonframework.config.ConfigurationParameterResolverFactory;
 import org.axonframework.config.DefaultConfigurer;
@@ -35,13 +35,11 @@ public class AxonConfigurationProducer {
     public Configuration configuration(CdiParameterResolverFactory cdiParameterResolverFactory) {
         final Configuration configuration = DefaultConfigurer
                 .defaultConfiguration()
-                .registerComponent(ParameterResolverFactory.class, config -> {
-                    return MultiParameterResolverFactory.ordered(
-                            new ConfigurationParameterResolverFactory(config),
-                            ClasspathParameterResolverFactory.forClass(getClass()),
-                            cdiParameterResolverFactory
-                    );
-                })
+                .registerComponent(ParameterResolverFactory.class, config -> MultiParameterResolverFactory.ordered(
+                        new ConfigurationParameterResolverFactory(config),
+                        ClasspathParameterResolverFactory.forClass(getClass()),
+                        cdiParameterResolverFactory
+                ))
                 .registerCommandHandler(config -> new SimpleCommandHandler())
                 .buildConfiguration();
 
