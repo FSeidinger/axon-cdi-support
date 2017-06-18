@@ -16,56 +16,31 @@
 
 package de.novity.axon.cdi;
 
-import org.axonframework.common.Assert;
-import org.axonframework.messaging.annotation.FixedValueParameterResolver;
 import org.axonframework.messaging.annotation.ParameterResolver;
 import org.axonframework.messaging.annotation.ParameterResolverFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.spi.CreationalContext;
-import javax.enterprise.inject.AmbiguousResolutionException;
-import javax.enterprise.inject.spi.Bean;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.inject.Inject;
+import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.spi.CDI;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Parameter;
-import java.util.Set;
 
 @ApplicationScoped
 public class CdiParameterResolverFactory implements ParameterResolverFactory {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final BeanManager manager;
-
-    @Inject
-    public CdiParameterResolverFactory(BeanManager manager) {
-        Assert.notNull(manager, () -> "The bean manager must not be null");
-        this.manager = manager;
-    }
+    private final CDI<Object> cdi = CDI.current();
 
     @Override
     public ParameterResolver createInstance(Executable executable, Parameter[] parameters, int parameterIndex) {
         final Class<?> parameterClass = parameters[parameterIndex].getType();
         final Annotation[] parameterQualifiers = parameterClass.getAnnotationsByType(javax.inject.Qualifier.class);
-        final Set<Bean<?>> beanCandidates = manager.getBeans(parameterClass, parameterQualifiers);
 
-        try {
-            final Bean<?> bean = manager.resolve(beanCandidates);
+        final Instance<?> cdiInstance = cdi.select(parameterClass, parameterQualifiers);
 
-            if (bean != null) {
-                final CreationalContext<?> context = manager.createCreationalContext(bean);
-                final Object value = manager.getReference(bean, parameterClass, context);
-                return new FixedValueParameterResolver(value);
-            } else {
-                logger.warn("No bean resolution for parameter type {}", parameterClass);
-            }
-        } catch (AmbiguousResolutionException e) {
-            logger.warn("Ambiguous bean resolution for parameter type {}\n  {}", parameterClass, e.getMessage());
-        }
-
-        return null;
+        return new CdiParameterResolver(cdiInstance);
     }
 }

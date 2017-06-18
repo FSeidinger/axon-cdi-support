@@ -46,27 +46,23 @@ import org.axonframework.messaging.annotation.ParameterResolverFactory;
 import de.novity.axon.cdi.CdiParameterResolverFactory;
 
 public class AxonConfigurationProducer {
+    @ApplicationScoped
+    @Produces
+    public Configuration configuration(CdiParameterResolverFactory cdiParameterResolverFactory) {
+        final Configuration configuration = DefaultConfigurer
+                .defaultConfiguration()
+                .registerComponent(ParameterResolverFactory.class, config -> {
+                    return MultiParameterResolverFactory.ordered(
+                            new ConfigurationParameterResolverFactory(config),
+                            ClasspathParameterResolverFactory.forClass(getClass()),
+                            cdiParameterResolverFactory
+                    );
+                })
+                .buildConfiguration();
 
-    @ApplicationScoped
-    @Produces
-    public ParameterResolverFactory factory(CdiParameterResolverFactory cdiParameterResolverFactory) {
-        return MultiParameterResolverFactory.ordered(
-            cdiParameterResolverFactory,
-            ClasspathParameterResolverFactory.forClass(getClass()),
-            new ConfigurationParameterResolverFactory(configuration)
-         );
+        configuration.start();
+
+        return configuration;
     }
-    
-    @ApplicationScoped
-    @Produces
-    public Configuration configuration(ParameterResolverFactory factory) {
-        return DefaultConfigurer
-            .defaultConfiguration()
-            .registerComponent(ParameterResolverFactory.class, config -> factory)
-            .buildConfiguration();
-    } 
 }
 ```
-
-The `ClasspathParameterResolverFactory` is optional. It its not officially documented, but analyzing the source code
-reveals, that this factory tries to load further implementations using the service loading concept (SPI) of Java SE.

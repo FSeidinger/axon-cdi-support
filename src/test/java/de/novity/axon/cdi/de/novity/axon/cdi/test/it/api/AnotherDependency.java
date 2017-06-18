@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.test;
+package de.novity.axon.cdi.de.novity.axon.cdi.test.it.api;
 
-import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.common.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class SimpleCommandHandler {
-    @CommandHandler
-    public void handl(final SimpleCommand command, final SimpleDependency dependency) {
-        Assert.notNull(command, () -> "Command must not be null");
-        Assert.notNull(dependency, () -> "Dependecy must not be null");
+public class AnotherDependency {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-        dependency.doSomething();
+    public void doSomething() {
+        logger.info("Done");
     }
 }

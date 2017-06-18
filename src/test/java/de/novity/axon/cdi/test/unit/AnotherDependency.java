@@ -14,16 +14,7 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.test;
+package de.novity.axon.cdi.test.unit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class BSimpleDependecy implements SimpleDependency {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    @Override
-    public void doSomething() {
-        logger.info("Did something");
-    }
+class AnotherDependency {
 }

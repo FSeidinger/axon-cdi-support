@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.app.domain.model;
+package de.novity.axon.cdi.de.novity.axon.cdi.test.it.api;
 
-public class SimpleCommand {
+public interface AmbiguousDependency {
+    void doSomething();
 }
