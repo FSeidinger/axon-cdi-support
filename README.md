@@ -38,12 +38,18 @@ public class MyDependency {
 You can then add the `CdiParameterResolverFactory` to your Axon configuration by doing something like this:
 
 ```Java
-import javax.enterprise.inject.Produces;
-import javax.enterprise.context.ApplicationScoped;
-import org.axonframework.config.Configuration;
-import org.axonframework.config.DefaultConfigurer;
-import org.axonframework.messaging.annotation.ParameterResolverFactory;
 import de.novity.axon.cdi.CdiParameterResolverFactory;
+import de.novity.axon.cdi.de.novity.axon.cdi.test.it.model.SimpleCommandHandler;
+import org.axonframework.config.Configuration;
+import org.axonframework.config.ConfigurationParameterResolverFactory;
+import org.axonframework.config.DefaultConfigurer;
+import org.axonframework.messaging.annotation.ClasspathParameterResolverFactory;
+import org.axonframework.messaging.annotation.MultiParameterResolverFactory;
+import org.axonframework.messaging.annotation.ParameterResolverFactory;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Disposes;
+import javax.enterprise.inject.Produces;
 
 public class AxonConfigurationProducer {
     @ApplicationScoped
@@ -51,18 +57,21 @@ public class AxonConfigurationProducer {
     public Configuration configuration(CdiParameterResolverFactory cdiParameterResolverFactory) {
         final Configuration configuration = DefaultConfigurer
                 .defaultConfiguration()
-                .registerComponent(ParameterResolverFactory.class, config -> {
-                    return MultiParameterResolverFactory.ordered(
-                            new ConfigurationParameterResolverFactory(config),
-                            ClasspathParameterResolverFactory.forClass(getClass()),
-                            cdiParameterResolverFactory
-                    );
-                })
+                .registerComponent(ParameterResolverFactory.class, config -> MultiParameterResolverFactory.ordered(
+                        new ConfigurationParameterResolverFactory(config),
+                        ClasspathParameterResolverFactory.forClass(getClass()),
+                        cdiParameterResolverFactory
+                ))
+                .registerCommandHandler(config -> new SimpleCommandHandler())
                 .buildConfiguration();
 
         configuration.start();
 
         return configuration;
+    }
+
+    public void shutdownConfiguration(@Disposes Configuration configuration) {
+        configuration.shutdown();
     }
 }
 ```
