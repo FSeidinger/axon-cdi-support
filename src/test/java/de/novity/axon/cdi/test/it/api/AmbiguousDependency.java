@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.it.api;
+package de.novity.axon.cdi.test.it.api;
 
 public interface AmbiguousDependency {
     void doSomething();

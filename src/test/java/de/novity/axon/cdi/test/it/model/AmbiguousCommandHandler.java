@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.it.model;
+package de.novity.axon.cdi.test.it.model;
 
-import de.novity.axon.cdi.it.api.SimpleCommand;
-import de.novity.axon.cdi.it.api.SimpleDependency;
+import de.novity.axon.cdi.test.it.api.AmbiguousDependency;
+import de.novity.axon.cdi.test.it.api.SimpleCommand;
 import org.axonframework.commandhandling.CommandHandler;
 
-public class SimpleCommandHandler {
+@SuppressWarnings("unused")
+public class AmbiguousCommandHandler {
+    @SuppressWarnings("unused")
     @CommandHandler
-    public void handle(final SimpleCommand command, final SimpleDependency simpleDependency) {
-        simpleDependency.doSomething();
+    public void handle(@SuppressWarnings("unused") final SimpleCommand command, final AmbiguousDependency anotherDependency) {
+        anotherDependency.doSomething();
     }
 }

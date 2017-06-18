@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.it.model;
+package de.novity.axon.cdi.test.it.api;
 
-import de.novity.axon.cdi.it.api.AnotherDependency;
-import de.novity.axon.cdi.it.api.SimpleCommand;
-import org.axonframework.commandhandling.CommandHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class AnotherCommandHandler {
-    @CommandHandler
-    public void handle(final SimpleCommand command, final AnotherDependency anotherDependency) {
-        anotherDependency.doSomething();
+public class SimpleDependency {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    public void doSomething() {
+        logger.info("Done");
     }
 }

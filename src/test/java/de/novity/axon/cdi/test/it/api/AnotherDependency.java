@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.it.infrastructure;
+package de.novity.axon.cdi.test.it.api;
 
-import de.novity.axon.cdi.it.api.AmbiguousDependency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DefaultAmbiguousDependency implements AmbiguousDependency {
+public class AnotherDependency {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public void doSomething() {

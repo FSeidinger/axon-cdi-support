@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.it.model;
+package de.novity.axon.cdi.test.it.infrastructure;
 
-import de.novity.axon.cdi.it.api.AmbiguousDependency;
-import de.novity.axon.cdi.it.api.SimpleCommand;
-import org.axonframework.commandhandling.CommandHandler;
+import de.novity.axon.cdi.test.it.api.AmbiguousDependency;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@SuppressWarnings("unused")
-public class AmbiguousCommandHandler {
-    @SuppressWarnings("unused")
-    @CommandHandler
-    public void handle(@SuppressWarnings("unused") final SimpleCommand command, final AmbiguousDependency anotherDependency) {
-        anotherDependency.doSomething();
+public class AlternativeAmbiguousDependency implements AmbiguousDependency {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    public void doSomething() {
+        logger.info("Done");
     }
 }
