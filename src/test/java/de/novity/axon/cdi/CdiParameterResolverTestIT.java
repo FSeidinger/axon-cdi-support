@@ -16,11 +16,11 @@
 
 package de.novity.axon.cdi;
 
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.api.AmbiguousDependency;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.api.AnotherDependency;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.api.SimpleDependency;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.infrastructure.AlternativeAmbiguousDependency;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.infrastructure.DefaultAmbiguousDependency;
+import de.novity.axon.cdi.it.api.AmbiguousDependency;
+import de.novity.axon.cdi.it.api.AnotherDependency;
+import de.novity.axon.cdi.it.api.SimpleDependency;
+import de.novity.axon.cdi.it.infrastructure.AlternativeAmbiguousDependency;
+import de.novity.axon.cdi.it.infrastructure.DefaultAmbiguousDependency;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.junit.jupiter.api.AfterEach;

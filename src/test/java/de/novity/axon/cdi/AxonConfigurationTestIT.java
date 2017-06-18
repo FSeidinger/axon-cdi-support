@@ -16,8 +16,8 @@
 
 package de.novity.axon.cdi;
 
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.App;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.api.SimpleCommand;
+import de.novity.axon.cdi.it.App;
+import de.novity.axon.cdi.it.api.SimpleCommand;
 import org.axonframework.config.Configuration;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;

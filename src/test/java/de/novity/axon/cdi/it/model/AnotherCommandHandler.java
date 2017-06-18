@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.de.novity.axon.cdi.test.it.model;
+package de.novity.axon.cdi.it.model;
 
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.api.AnotherDependency;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.api.SimpleCommand;
+import de.novity.axon.cdi.it.api.AnotherDependency;
+import de.novity.axon.cdi.it.api.SimpleCommand;
 import org.axonframework.commandhandling.CommandHandler;
 
 public class AnotherCommandHandler {

@@ -16,15 +16,15 @@
 
 package de.novity.axon.cdi;
 
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.api.AmbiguousDependency;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.api.AnotherDependency;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.api.SimpleCommand;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.api.SimpleDependency;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.infrastructure.AlternativeAmbiguousDependency;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.infrastructure.DefaultAmbiguousDependency;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.model.AmbiguousCommandHandler;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.model.AnotherCommandHandler;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.model.SimpleCommandHandler;
+import de.novity.axon.cdi.it.api.AmbiguousDependency;
+import de.novity.axon.cdi.it.api.AnotherDependency;
+import de.novity.axon.cdi.it.api.SimpleCommand;
+import de.novity.axon.cdi.it.api.SimpleDependency;
+import de.novity.axon.cdi.it.infrastructure.AlternativeAmbiguousDependency;
+import de.novity.axon.cdi.it.infrastructure.DefaultAmbiguousDependency;
+import de.novity.axon.cdi.it.model.AmbiguousCommandHandler;
+import de.novity.axon.cdi.it.model.AnotherCommandHandler;
+import de.novity.axon.cdi.it.model.SimpleCommandHandler;
 import org.axonframework.messaging.Message;
 import org.axonframework.messaging.annotation.ParameterResolver;
 import org.jboss.weld.environment.se.Weld;

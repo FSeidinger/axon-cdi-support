@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.de.novity.axon.cdi.test.it;
+package de.novity.axon.cdi.it.api;
 
-/**
- * This class is used to mark the package root of the CDI integration test environment used by
- * {@link de.novity.axon.cdi.CdiParameterResolverFactory}
- */
-public class App {
+public interface AmbiguousDependency {
+    void doSomething();
 }

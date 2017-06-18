@@ -39,7 +39,7 @@ You can then add the `CdiParameterResolverFactory` to your Axon configuration by
 
 ```Java
 import de.novity.axon.cdi.CdiParameterResolverFactory;
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.model.SimpleCommandHandler;
+import de.novity.axon.cdi.it.model.SimpleCommandHandler;
 import org.axonframework.config.Configuration;
 import org.axonframework.config.ConfigurationParameterResolverFactory;
 import org.axonframework.config.DefaultConfigurer;

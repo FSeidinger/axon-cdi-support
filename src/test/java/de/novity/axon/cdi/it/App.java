@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-package de.novity.axon.cdi.de.novity.axon.cdi.test.it.infrastructure;
+package de.novity.axon.cdi.it;
 
-import de.novity.axon.cdi.de.novity.axon.cdi.test.it.api.AmbiguousDependency;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class AlternativeAmbiguousDependency implements AmbiguousDependency {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    public void doSomething() {
-        logger.info("Done");
-    }
+/**
+ * This class is used to mark the package root of the CDI integration test environment used by
+ * {@link de.novity.axon.cdi.CdiParameterResolverFactory}
+ */
+public class App {
 }
